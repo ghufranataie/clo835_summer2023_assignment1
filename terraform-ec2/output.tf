@@ -1,6 +1,6 @@
 output "ec2_public_ip" {
   description = "Public IP address of the EC2 instance"
-  value       = aws_instance.my_ec2.public_ip
+  value       = aws_instance.EC2-SRVR.public_ip
 }
 
 output "app_ecr_repository_url" {
