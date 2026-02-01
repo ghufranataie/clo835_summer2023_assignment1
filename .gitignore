@@ -1,0 +1,3 @@
+# Terraform state files
+terraform-ec2/terraform.tfstate
+terraform-ec2/terraform.tfstate.backup
