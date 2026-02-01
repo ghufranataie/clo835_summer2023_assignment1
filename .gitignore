@@ -5,3 +5,5 @@ terraform-ec2/.terraform/
 *.tfstate
 *.tfstate.backup
 *.tfvars
+.terraform/
+
