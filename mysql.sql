@@ -2,13 +2,12 @@ CREATE DATABASE IF NOT EXISTS employees;
 USE employees;
 
 CREATE TABLE IF NOT EXISTS employee(
-emp_id VARCHAR(20),
+emp_id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
 first_name VARCHAR(20),
 last_name VARCHAR(20),
 primary_skill VARCHAR(20),
 location VARCHAR(20));
 
-INSERT INTO employee VALUES ('1','Amanda','Williams','Smile','local');
-INSERT INTO employee VALUES ('1','Alan','Williams','Empathy','alien');
+INSERT INTO employee (first_name, last_name, primary_skill, location) VALUES ('Amanda','Williams','Smile','local'), 
+('Alan','Williams','Empathy','Oshawa'), ('Ghufran','Ataie','Database','Ajax');
 SELECT * FROM employee;
-
