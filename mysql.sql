@@ -9,5 +9,5 @@ primary_skill VARCHAR(20),
 location VARCHAR(20));
 
 INSERT INTO employee (first_name, last_name, primary_skill, location) VALUES ('Amanda','Williams','Smile','local'), 
-('Alan','Williams','Empathy','Oshawa'), ('Ghufran','Ataie','Database','Ajax'), ('Imran','Ataie','Database','Ajax');
+('Alan','Williams','Empathy','Oshawa'), ('Ghufran','Ataie','Database','Ajax'), ('Imran','Ataie','Database','Ajax'), ('Rezwan','Ataie','Database','Ajax');
 SELECT * FROM employee;
