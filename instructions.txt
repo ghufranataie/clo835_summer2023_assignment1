@@ -1,0 +1,154 @@
+Step 1:
+	Open the 2 tier application link in GitHub using the following link
+	https://github.com/ladunuthala/clo835_summer2023_assignment1
+	Fork (Add a copy of the application) to your GitHub account using Fork by clicking on Fork located at the top right side of the page (Fork Your Own Copy)
+	
+
+Step 2:
+ 	Open AWS Management Console and create a Cloud 9 Environment.
+
+
+Step 3:
+	Open Cloud9 and run the following commands to copy the whole Application inside the Cloud9 Environment.
+ 		$ git clone https://github.com/ghufranataie/clo835_summer2023_assignment1.git
+ 		$ cd clo835_summer2023_assignment1
+
+
+Step 4:
+ 	While on Cloud9 check for the required tools by running the following command
+ 		$ terraform --version
+ 		$ docker --version
+ 		$ aws --version
+ 		$ git --version
+
+ 	Probably you will have to install the terraform version by running the following commands.
+ 		$ sudo yum update -y
+ 		$ sudo yum install -y yum-utils shadow-utils
+ 		$ sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo
+ 		$ sudo yum install terraform -y
+ 		$ terraform version or $ terraform --version
+
+
+Step 5: 
+	Create a branch inside Cloud 9 by running the following command
+		$ git checkout -b development
+
+	Protect master branch in GitHub:
+	Settings → Branches → Add rule
+	Protect master
+	Require pull request before merging
+	Disable direct commits
+
+Step 6:
+	Now Connect to GitHub account using the ssh key and to create a key follow the commands.
+		$ ssh-keygen -t ed25519 -C "ghufranataie@hotmail.com"   --> press enter for any response
+		$ cat ~/.ssh/id_ed25519.pub				--> copy the ssh key and open GitHub Online Account and do the followings
+
+	GitHub -> Settings -> SSH and GPG Keys -> New SSH Key
+	Title = "ass1"
+	paste the copied key then click
+	Add SSH Key
+
+	Use the following command to check current remote and if different than your Forked application repository to github account then used the following command
+		$ git remote set-url origin git@github.com:ghufranataie/clo835_summer2023_assignment1.git
+	The command change the remote repository from default to your own github account repository
+
+	Now push development branch to github online account so both local and online copy have master and development branch.
+		$ git push -u origin development
+
+
+Step 7: 
+	Install MySQL tool
+		$ sudo yum update -y
+		$ sudo yum install mysql -y
+
+		$ pip3 install -r requirements.txt
+		$ sudo python3 app.py
+
+
+Step 8:	
+	Create docker images from MySQL and application.
+		$ docker build -t my_db -f Dockerfile_mysql .
+		$ docker build -t my_app -f Dockerfile .
+
+Step 9:
+	Create containers from docker images
+		$ docker run -d -e MYSQL_ROOT_PASSWORD=Gh@4615123 my_db
+		$ docker inspect <container_id>
+		$ 
+
+
+		export DBHOST=172.17.0.2
+		export DBPORT=3306
+		export DBUSER=root
+		export DATABASE=employees
+		export DBPWD=Gh@4615123
+		export APP_COLOR=blue
+		docker run -p 8080:8080  -e DBHOST=$DBHOST -e DBPORT=$DBPORT -e  DBUSER=$DBUSER -e DBPWD=$DBPWD my_app
+
+
+
+Step 10:
+	Upload the Terraform folder in Cloud9 environment and use the following commands to deploy an EC2 instance.
+	
+		$ cd terraform
+		$ terraform init
+		$ terraform validate
+		$ terraform plan
+		$ terraform apply
+
+
+aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 524714122815.dkr.ecr.us-east-1.amazonaws.com
+
+docker network create ass1-network
+
+
+docker run -d \
+ --name mysql-container \
+ --network ass1-network \
+ -e MYSQL_ROOT_PASSWORD=Gh@4615123 \
+ 524714122815.dkr.ecr.us-east-1.amazonaws.com/db:latest
+
+docker exec -it mysql-container mysql -u root -p
+
+use employees;
+select * from employee;
+
+
+docker run -d \
+--name blue \
+--network ass1-network \
+-p 8081:8080 \
+-e APP_COLOR=blue \
+-e DBHOST=mysql-container \
+-e DBPORT=3306 \
+-e DBUSER=root \
+-e DBPWD=Gh@4615123 \
+-e DBNAME=blue \
+524714122815.dkr.ecr.us-east-1.amazonaws.com/app:latest
+
+docker run -d \
+--name pink \
+--network ass1-network \
+-p 8082:8080 \
+-e APP_COLOR=pink \
+-e DBHOST=mysql-container \
+-e DBPORT=3306 \
+-e DBUSER=root \
+-e DBPWD=Gh@4615123 \
+-e DBNAME=pink \
+524714122815.dkr.ecr.us-east-1.amazonaws.com/app:latest
+
+docker run -d \
+--name lime \
+--network ass1-network \
+-p 8083:8080 \
+-e APP_COLOR=lime \
+-e DBHOST=mysql-container \
+-e DBPORT=3306 \
+-e DBUSER=root \
+-e DBPWD=Gh@4615123 \
+-e DBNAME=lime \
+524714122815.dkr.ecr.us-east-1.amazonaws.com/app:latest
+
+docker exec -it blue bash
