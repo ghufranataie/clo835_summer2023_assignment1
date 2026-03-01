@@ -7,11 +7,12 @@ resource "aws_instance" "EC2-SRVR" {
 
   user_data = <<-EOF
     #!/bin/bash
-    yum update -y
-    yum install -y docker
-    systemctl start docker
-    systemctl enable docker
-    usermod -aG docker ec2-user
+    sudo dnf update -y
+    sudo dnf install git -y
+    sudo dnf install docker -y
+    sudo systemctl start docker
+    sudo systemctl enable docker
+    sudo usermod -aG docker ec2-user
   EOF
 
   tags = {
